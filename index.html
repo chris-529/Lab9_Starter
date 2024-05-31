@@ -69,25 +69,33 @@
     </form>
 
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button class="logButton">Console Log</button>
+      <button class="errorButton">Console Error</button>
+      <button class="countButton">Console Count</button>
+      <button class="warnButton">Console Warn</button>
+      <button class="assertButton">Console Assert</button>
+      <button class="clearButton">Console Clear</button>
+      <button class="dirButton">Console Dir</button>
+      <button class="xmlButton">Console dirxml</button>
+      <button class="startButton">Console Group Start</button>
+      <button class="endButton">Console Group End</button>
+      <button class="tableButton">Console Table</button>
+      <button class="startTimerButton">Start Timer</button>
+      <button class="endTimerButton">End Timer</button>
+      <button class="traceButton">Console Trace</button>
+      <button class="errorButton">Trigger a Global Error</button>
     </section>
   </main>
 
   <script>
+
+  class CalculatorError extends Error {
+    constructor(message) {
+      super(message); // (1)
+      this.name = "Calculation Error"; // (2)
+    }
+  }
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -95,6 +103,15 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
+      try {
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      } catch (err) {
+        console.log("In catch block:", err.message);
+        throw new CalculatorError("Error in catch");
+      } finally {
+        document.querySelector('#first-num').value = '';
+        document.querySelector('#second-num').value = '';
+      }
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
     });
 
@@ -102,6 +119,89 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    // Add an event listener to log a message to the console when the button is clicked
+    document.querySelector('.logButton').addEventListener('click', function() {
+        console.log('Console Log Demo');
+
+    })
+
+    document.querySelector('.errorButton').addEventListener('click', function() {
+        console.error('Console Error Demo');
+
+    })
+
+    let count = 0;
+    document.querySelector('.countButton').addEventListener('click', function() {
+      count++;
+      console.log('Count Button: ' + count);
+
+    })
+
+    document.querySelector('.warnButton').addEventListener('click', function() {
+      console.warn('Console Warn Button');
+    })
+
+    document.querySelector('.assertButton').addEventListener('click', function() {
+      const errorMsg = 'The number does not equal 3';
+      const number = 2;
+      console.assert(number == 3, "%o", { number, errorMsg });
+    })
+
+    document.querySelector('.clearButton').addEventListener('click', function() {
+      console.clear();
+    })
+
+    document.querySelector('.dirButton').addEventListener('click', function() {
+      console.dir(document.querySelector('.dirButton'));
+    })
+
+    document.querySelector('.xmlButton').addEventListener('click', function() {
+      console.dirxml(document.querySelector('.dirButton'));
+    })
+
+    document.querySelector('.startButton').addEventListener('click', function() {
+      console.group();
+    })
+
+    document.querySelector('.endButton').addEventListener('click', function() {
+      console.groupEnd();
+    })
+
+    const classes = [
+      ["cse", 110],
+      ["cse", 130],
+      ["math", 183],
+  ] ;
+
+  document.querySelector('.tableButton').addEventListener('click', function() {
+      console.table(classes);
+  })
+
+  document.querySelector('.startTimerButton').addEventListener('click', function() {
+      console.time("Timer Button");
+  })
+
+  document.querySelector('.endTimerButton').addEventListener('click', function() {
+      console.timeEnd("Timer Button");
+  })
+
+
+  document.querySelector('.traceButton').addEventListener('click', function() {
+      traceStuff();
+  })
+
+  function traceStuff() {
+    traceMore();
+  }
+
+  function traceMore() {
+    console.trace();
+  }
+
+  
+
+    
   </script>
 </body>
 
