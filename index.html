@@ -83,11 +83,20 @@
       <button class="startTimerButton">Start Timer</button>
       <button class="endTimerButton">End Timer</button>
       <button class="traceButton">Console Trace</button>
-      <button class="errorButton">Trigger a Global Error</button>
+      <button class="globalButton">Trigger a Global Error</button>
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "e0833bf9b5b04468a2aa6d73184ad702"
+      // for more configuration options, see https://docs.trackjs.com
+      });
+  </script>
+                        
+  <script>
+    
 
   class CalculatorError extends Error {
     constructor(message) {
@@ -112,7 +121,7 @@
         document.querySelector('#first-num').value = '';
         document.querySelector('#second-num').value = '';
       }
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      //output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
@@ -199,6 +208,16 @@
     console.trace();
   }
 
+
+  //gobal error trigger
+  document.querySelector('.globalButton').addEventListener('click', () =>{
+    var num = Num +1;
+
+  });
+  window.onerror = function(message, source, LineNo, ColNo) {
+    //console.error(message);
+  };
+  //TrackJS.track('Testing TrackJS!');
   
 
     
